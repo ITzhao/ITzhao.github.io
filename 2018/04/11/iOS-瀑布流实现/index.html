@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="思路:先说一下这个效果的实现思路,首先需要确定该瀑布流有多少列,然后需要确定每个cell 的高度,用一个数组记录下每一列的已添加上去的cell的高度和.然后添加下一个cell的时候找出所有列中高度最小的列,再添加上去.">
+<meta name="keywords" content="OC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS-瀑布流实现">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/iOS-瀑布流实现/index.html">
+<meta property="og:site_name" content="赵师顺的博客">
+<meta property="og:description" content="思路:先说一下这个效果的实现思路,首先需要确定该瀑布流有多少列,然后需要确定每个cell 的高度,用一个数组记录下每一列的已添加上去的cell的高度和.然后添加下一个cell的时候找出所有列中高度最小的列,再添加上去.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3601550-78f05f59bba5e59e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-11T07:04:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS-瀑布流实现">
+<meta name="twitter:description" content="思路:先说一下这个效果的实现思路,首先需要确定该瀑布流有多少列,然后需要确定每个cell 的高度,用一个数组记录下每一列的已添加上去的cell的高度和.然后添加下一个cell的时候找出所有列中高度最小的列,再添加上去.">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3601550-78f05f59bba5e59e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/iOS-瀑布流实现/"/>
+
+
+
+
+
+  <title>iOS-瀑布流实现 | 赵师顺的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">赵师顺的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活总是让我们遍体鳞伤，但到后来，那些受伤的地方一定会变成我们最强壮的地方。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/iOS-瀑布流实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵师顺">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵师顺的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS-瀑布流实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T11:37:18+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>思路:<br>先说一下这个效果的实现思路,首先需要确定该瀑布流有多少列,然后需要确定每个cell 的高度,用一个数组记录下每一列的已添加上去的cell的高度和.然后添加下一个cell的时候找出所有列中高度最小的列,再添加上去.</p>
+<a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/3601550-78f05f59bba5e59e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2018-01-15 上午11.40.53.png"></p>
+<h4 id="自定义布局-YJPCollectionLayout"><a href="#自定义布局-YJPCollectionLayout" class="headerlink" title="自定义布局-YJPCollectionLayout"></a>自定义布局-YJPCollectionLayout</h4><p><strong>YJPCollectionLayout.h</strong></p>
+<blockquote>
+<p>制定协议</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@class YJPCollectionLayout;</span><br><span class="line"></span><br><span class="line">@protocol YJPCollectionLayoutDelegate &lt;NSObject&gt;</span><br><span class="line">@required</span><br><span class="line">/**</span><br><span class="line"> 决定cell的高度,必须实现方法</span><br><span class="line"></span><br><span class="line"> @param layout 布局类</span><br><span class="line"> @param index 第index个Cell</span><br><span class="line"> @param width cell 宽度</span><br><span class="line"> @return cell 高度</span><br><span class="line"> */</span><br><span class="line">- (CGFloat)collectionLayout: (YJPCollectionLayout *)layout heightForRowAtIndex:(NSInteger)index itemWidth:(CGFloat)width;</span><br><span class="line"></span><br><span class="line">@optional</span><br><span class="line">/**</span><br><span class="line"> 确定有多少列</span><br><span class="line"></span><br><span class="line"> @param collectionLayout 布局类</span><br><span class="line"> @return 列数（默认3列）</span><br><span class="line"> */</span><br><span class="line">- (NSInteger)cloumnCountInCollectionLayout:(YJPCollectionLayout *)collectionLayout;</span><br><span class="line">/**</span><br><span class="line"> 决定cell 的列的距离</span><br><span class="line"></span><br><span class="line"> @param collectionLayout 布局类</span><br><span class="line"> @return 列的距离(默认10)</span><br><span class="line"> */</span><br><span class="line">- (CGFloat)columMarginInCollectionLayout:(YJPCollectionLayout *)collectionLayout;</span><br><span class="line">/**</span><br><span class="line"> 决定cell 的行的距离</span><br><span class="line"></span><br><span class="line"> @param collectionLayout 布局类</span><br><span class="line"> @return 行的距离（默认10）</span><br><span class="line"> */</span><br><span class="line">- (CGFloat)rowMarginInCollectionLayout:(YJPCollectionLayout *)collectionLayout;</span><br><span class="line">/**</span><br><span class="line"> 决定cell 的边缘距</span><br><span class="line"></span><br><span class="line"> @param collectionLayout 布局类</span><br><span class="line"> @return 边距</span><br><span class="line"> */</span><br><span class="line">- (UIEdgeInsets)edgeInsetInCollectionLayout:(YJPCollectionLayout *)collectionLayout;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>声明协议,提供方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface YJPCollectionLayout : UICollectionViewFlowLayout</span><br><span class="line">@property (nonatomic,assign) id &lt;YJPCollectionLayoutDelegate&gt;delegate;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><strong>YJPCollectionLayout.m</strong></p>
+<blockquote>
+<p>设置默认值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/**  列数*/</span><br><span class="line">static const CGFloat columCount = 3;</span><br><span class="line">/**  每一列间距*/</span><br><span class="line">static const CGFloat columMargin = 10;</span><br><span class="line">/**  每一列间距*/</span><br><span class="line">static const CGFloat rowMargin = 10;</span><br><span class="line">/**  边缘间距*/</span><br><span class="line">static const UIEdgeInsets defaultEdgeInsets = &#123;10,10,10,10&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">- (NSInteger)columCount&#123;</span><br><span class="line">    </span><br><span class="line">    if ([self.delegate respondsToSelector:@selector(cloumnCountInWaterFlowLayout:)]) &#123;</span><br><span class="line">        return  [self.delegate cloumnCountInWaterFlowLayout:self];</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        return columCount;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGFloat)columMargin&#123;</span><br><span class="line">    </span><br><span class="line">    if ([self.delegate respondsToSelector:@selector(columMarginInWaterFlowLayout:)]) &#123;</span><br><span class="line">        return  [self.delegate columMarginInWaterFlowLayout:self];</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        return columMargin;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (CGFloat)rowMargin&#123;</span><br><span class="line">    </span><br><span class="line">    if ([self.delegate respondsToSelector:@selector(rowMarginInWaterFlowLayout:)]) &#123;</span><br><span class="line">        return  [self.delegate rowMarginInWaterFlowLayout:self];</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        return rowMargin;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (UIEdgeInsets)defaultEdgeInsets&#123;</span><br><span class="line">    </span><br><span class="line">    if ([self.delegate respondsToSelector:@selector(edgeInsetInWaterFlowLayout:)]) &#123;</span><br><span class="line">        return  [self.delegate edgeInsetInWaterFlowLayout:self];</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        return defaultEdgeInsets;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>声明集合<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface YJPCollectionLayout ()</span><br><span class="line">/** 布局属性数组*/</span><br><span class="line">@property (nonatomic,strong) NSMutableArray *attrsArray;</span><br><span class="line"></span><br><span class="line">/** 存放所有列的当前高度*/</span><br><span class="line">@property (nonatomic,strong) NSMutableArray *columnHeight;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@implementation YJPCollectionLayout</span><br><span class="line"></span><br><span class="line">- (NSMutableArray *)attrsArray</span><br><span class="line">&#123;</span><br><span class="line">    if (!_attrsArray) &#123;</span><br><span class="line">        </span><br><span class="line">        _attrsArray = [NSMutableArray array];</span><br><span class="line">    &#125;</span><br><span class="line">    return _attrsArray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSMutableArray *)columnHeight</span><br><span class="line">&#123;</span><br><span class="line">    if (!_columnHeight) &#123;</span><br><span class="line">        </span><br><span class="line">        _columnHeight = [NSMutableArray array];</span><br><span class="line">    &#125;</span><br><span class="line">    return _columnHeight;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>重写prepareLayout, layoutAttributesForItemAtIndexPath, layoutAttributesForElementsInRect, collectionViewContentSize 方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">/**  初始化*/</span><br><span class="line">- (void)prepareLayout</span><br><span class="line">&#123;</span><br><span class="line">    [super prepareLayout];</span><br><span class="line">    </span><br><span class="line">    //如果刷新布局就会重新调用prepareLayout这个方法,所以要先把高度数组清空</span><br><span class="line">    [self.columnHeight removeAllObjects];</span><br><span class="line">    for (int i = 0; i &lt; self.columCount; i++) &#123;</span><br><span class="line">        </span><br><span class="line">        [self.columnHeight addObject:@(self.defaultEdgeInsets.top)];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSInteger count = [self.collectionView numberOfItemsInSection:0];</span><br><span class="line">    </span><br><span class="line">    [self.attrsArray removeAllObjects];</span><br><span class="line">    for (NSInteger i = 0; i &lt; count; i++) &#123;</span><br><span class="line">        </span><br><span class="line">        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];</span><br><span class="line">        //获取indexPath 对应cell 的布局属性</span><br><span class="line">        UICollectionViewLayoutAttributes *attr = [self layoutAttributesForItemAtIndexPath:indexPath];</span><br><span class="line">        [self.attrsArray addObject:attr];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  返回indexPath 位置cell对应的布局属性</span><br><span class="line"> */</span><br><span class="line">- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    UICollectionViewLayoutAttributes *attr = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];</span><br><span class="line">    </span><br><span class="line">    //使用for循环,找出高度最短的那一列</span><br><span class="line">    //最短高度的列</span><br><span class="line">    NSInteger destColumn = 0;</span><br><span class="line">    CGFloat minColumnHeight = [self.columnHeight[0] doubleValue];</span><br><span class="line">    </span><br><span class="line">    for (NSInteger i = 1; i &lt; self.columCount; i++) &#123;</span><br><span class="line">        </span><br><span class="line">        CGFloat columnHeight  =[self.columnHeight[i] doubleValue];</span><br><span class="line">        if (minColumnHeight &gt; columnHeight) &#123;</span><br><span class="line">            </span><br><span class="line">            minColumnHeight = columnHeight;</span><br><span class="line">            destColumn = I;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    CGFloat w = (self.collectionView.frame.size.width - self.defaultEdgeInsets.left - self.defaultEdgeInsets.right - (self.columCount - 1) * self.columMargin )/self.columCount;</span><br><span class="line">    </span><br><span class="line">    //(使用代理在外部决定cell 的高度,下面会介绍)</span><br><span class="line">    CGFloat h = [self.delegate waterFlowLayout:self heightForRowAtIndex:indexPath.item itemWidth:w];</span><br><span class="line">    </span><br><span class="line">    CGFloat x = self.defaultEdgeInsets.left + destColumn*(w + self.columMargin);</span><br><span class="line">    CGFloat y = minColumnHeight ;</span><br><span class="line">    </span><br><span class="line">    if (y != self.defaultEdgeInsets.top) &#123;</span><br><span class="line">        </span><br><span class="line">        y += self.rowMargin;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    attr.frame = CGRectMake(x,y,w,h);</span><br><span class="line">    </span><br><span class="line">    self.columnHeight[destColumn] =  @(y+ h);</span><br><span class="line">    return attr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  决定cell 的排布</span><br><span class="line"> */</span><br><span class="line">- (NSArray&lt;UICollectionViewLayoutAttributes *&gt; *)layoutAttributesForElementsInRect:(CGRect)rect</span><br><span class="line">&#123;</span><br><span class="line">    return self.attrsArray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 决定collectionView的可滚动范围</span><br><span class="line"> */</span><br><span class="line">- (CGSize)collectionViewContentSize</span><br><span class="line">&#123;</span><br><span class="line">    </span><br><span class="line">    CGFloat maxHeight = [self.columnHeight[0] doubleValue];</span><br><span class="line">    for (int i = 1; i &lt; self.columCount; i++) &#123;</span><br><span class="line">        </span><br><span class="line">        CGFloat value = [self.columnHeight[i] doubleValue];</span><br><span class="line">        if (maxHeight &lt; value) &#123;</span><br><span class="line">            </span><br><span class="line">            maxHeight = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return CGSizeMake(0, maxHeight+self.defaultEdgeInsets.bottom);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>走到这一步，你的瀑布流布局以完成</strong></p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - YJPCollectionLayoutDelegate</span><br><span class="line">- (CGFloat)collectionLayout:(YJPCollectionLayout *)layout heightForRowAtIndex:(NSInteger)index itemWidth:(CGFloat)width</span><br><span class="line">&#123;</span><br><span class="line">    return random()%100 + 80;</span><br><span class="line">&#125;</span><br><span class="line">- (CGFloat)columMarginInCollectionLayout:(YJPCollectionLayout *)collectionLayout</span><br><span class="line">&#123;</span><br><span class="line">    return 10;</span><br><span class="line">&#125;</span><br><span class="line">- (CGFloat)rowMarginInCollectionLayout:(YJPCollectionLayout *)collectionLayout</span><br><span class="line">&#123;</span><br><span class="line">    return 10;</span><br><span class="line">&#125;</span><br><span class="line">- (NSInteger)cloumnCountInCollectionLayout:(YJPCollectionLayout *)collectionLayout</span><br><span class="line">&#123;</span><br><span class="line">    return 3;</span><br><span class="line">&#125;</span><br><span class="line">- (void)configCollectionView</span><br><span class="line">&#123;</span><br><span class="line">    YJPCollectionLayout *layout = [[YJPCollectionLayout alloc]init];</span><br><span class="line">    layout.delegate = self;</span><br><span class="line">    UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, NavigationHeight, K_Screen.width, K_Screen.height - NavigationHeight) collectionViewLayout:layout];</span><br><span class="line">    collectionView.delegate = self;</span><br><span class="line">    collectionView.dataSource = self;</span><br><span class="line">    collectionView.backgroundColor = [UIColor whiteColor];</span><br><span class="line">    [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@&quot;UICollectionViewCell&quot;];</span><br><span class="line">    [self.view addSubview:collectionView];</span><br><span class="line">&#125;</span><br><span class="line">- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section</span><br><span class="line">&#123;</span><br><span class="line">    return 50;</span><br><span class="line">&#125;</span><br><span class="line">- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@&quot;UICollectionViewCell&quot; forIndexPath:indexPath];</span><br><span class="line">    cell.backgroundColor = [UIColor randomColor];</span><br><span class="line">    return cell;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/iOS-支付宝集成封装/" rel="next" title="iOS-支付宝集成封装">
+                <i class="fa fa-chevron-left"></i> iOS-支付宝集成封装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/iOS引导页封装/" rel="prev" title="iOS引导页封装">
+                iOS引导页封装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+                alt="赵师顺" />
+            
+              <p class="site-author-name" itemprop="name">赵师顺</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITzhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1145273956@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/6cacdf260f9a" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义布局-YJPCollectionLayout"><span class="nav-number">1.</span> <span class="nav-text">自定义布局-YJPCollectionLayout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵师顺</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

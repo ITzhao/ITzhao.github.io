@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="摘要：简单介绍下在Swift中对 字符串，数组，字典的常用操作。">
+<meta name="keywords" content="Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift-字符串，数组，字典">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/Swift-字符串，数组，字典/index.html">
+<meta property="og:site_name" content="赵师顺的博客">
+<meta property="og:description" content="摘要：简单介绍下在Swift中对 字符串，数组，字典的常用操作。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T06:58:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift-字符串，数组，字典">
+<meta name="twitter:description" content="摘要：简单介绍下在Swift中对 字符串，数组，字典的常用操作。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/Swift-字符串，数组，字典/"/>
+
+
+
+
+
+  <title>Swift-字符串，数组，字典 | 赵师顺的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">赵师顺的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活总是让我们遍体鳞伤，但到后来，那些受伤的地方一定会变成我们最强壮的地方。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/Swift-字符串，数组，字典/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵师顺">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵师顺的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift-字符串，数组，字典</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T14:43:19+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>摘要：简单介绍下在Swift中对 字符串，数组，字典的常用操作。</p>
+<a id="more"></a>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><ul>
+<li>字符串的长度</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">let string = &quot;hello world&quot;</span><br><span class="line"></span><br><span class="line">// 1，字符串的遍历 ,字符串是一个结构体</span><br><span class="line">for c in string.characters &#123;</span><br><span class="line">    print(c)</span><br><span class="line">&#125;</span><br><span class="line">// 2， 返回指定编码对应的的字节数量</span><br><span class="line">//        utf8 编码（0-4）个，每个汉字的是3个字节</span><br><span class="line">print(string.lengthOfBytes(using: .utf8))</span><br><span class="line"></span><br><span class="line">// 3， 字符串长度--- 获取字符的个数</span><br><span class="line">print(&quot;---\(string.characters.count)----&quot;)</span><br><span class="line"></span><br><span class="line">// 4，使用NSString中转 ( string as  &quot;类型&quot;  swift中的类型转换)</span><br><span class="line">let ocString = string as NSString</span><br><span class="line">print(ocString.length)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符串的拼接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let name = &quot;谁家娇妻守空房&quot;</span><br><span class="line">let age = &quot;隔壁老王来帮忙&quot;</span><br><span class="line">let title:  String? = &quot;大王叫我来巡山了&quot;</span><br><span class="line"></span><br><span class="line">let nameString  = &quot;\(name) \(age) \(title ?? &quot;&quot;)&quot;</span><br><span class="line">print(nameString)</span><br><span class="line">print(name + age + (title ?? &quot;&quot;))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字符串的截取</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let titleString = &quot;曾经的王者,如今的小弟&quot;</span><br><span class="line"></span><br><span class="line">// 1，转化成NSString ，强烈建议使用</span><br><span class="line">let ocString = titleString as NSString</span><br><span class="line"></span><br><span class="line">let string1 = ocString.substring(with: NSMakeRange(2, 4))</span><br><span class="line">print(string1)</span><br><span class="line"></span><br><span class="line">// 2，swift 3.0以后的新方法</span><br><span class="line"></span><br><span class="line">// from：&quot;字符串的起始长度&quot;</span><br><span class="line">let string2 = titleString.substring(from: &quot;我们&quot;.endIndex)</span><br><span class="line">let string3 = titleString.substring(from: &quot;adc&quot;.endIndex)</span><br><span class="line"></span><br><span class="line">print(&quot;-------------&quot;)</span><br><span class="line">print(string2)</span><br><span class="line">print(string3)</span><br><span class="line"></span><br><span class="line">// 字符串的范围</span><br><span class="line">guard  let range = titleString.range(of: &quot;王者&quot;) else &#123;</span><br><span class="line">    print(&quot;不包括字符串&quot;)</span><br><span class="line">    return</span><br><span class="line">&#125;</span><br><span class="line">print(&quot;------------&quot;)</span><br><span class="line">print(range) // 获取字符串对应的 range</span><br><span class="line">print(titleString.substring(with: range))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>特定格式化的字符串</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let h = 7</span><br><span class="line">let m = 30</span><br><span class="line">let s = 0</span><br><span class="line">    </span><br><span class="line">print(&quot;\(h):\(m):\(s)&quot;)</span><br><span class="line">    </span><br><span class="line">let dataString  = String(format: &quot;%02d:%02d:%02d&quot;,h,m,s)</span><br><span class="line">print(dataString)</span><br></pre></td></tr></table></figure>
+<h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><ul>
+<li>数组的定义</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// OC使用[] 定义数组，没有@符</span><br><span class="line">// 自动推导数组元素类型 [String] - &gt;表示 数组中存放的都是String类型</span><br><span class="line"></span><br><span class="line">let firstArray = [&quot;hello&quot;,&quot;world&quot;]</span><br><span class="line">print(firstArray)</span><br><span class="line"></span><br><span class="line">// 自动推导为[Int]-&gt;表示存放的都是 Int类型</span><br><span class="line">// 与OC不同  基本类型都是结构体，不需要包装</span><br><span class="line">let array = [1,2,3,4,5]</span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line">// 自动推导为[CGPoint] OC中的结构体</span><br><span class="line">let p = CGPoint(x: 10, y: 300)</span><br><span class="line">let array2 = [p]</span><br><span class="line">print(array2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 混合数组，自动推导为 [Any]- &gt; 任意类型</span><br><span class="line">// 实际开发中并不常用</span><br><span class="line">let array3 = [&quot;混合数组&quot;,p,1] as [Any]</span><br><span class="line">print(array3)</span><br><span class="line"></span><br><span class="line">// 空间容量不足的时候 会 *2</span><br><span class="line">let array4 = [Int]()</span><br><span class="line">print(&quot;\(array4.capacity)&quot;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数组的遍历</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 定义数组 [String]</span><br><span class="line">        let array  = [&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;,&quot;麻子&quot;]</span><br><span class="line">        </span><br><span class="line">        //1，按照下标遍历</span><br><span class="line">        for i in 0..&lt;array.count &#123;</span><br><span class="line">            print(array[i])</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //2， for in 遍历</span><br><span class="line">        for string in array &#123;</span><br><span class="line">            print(string)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //3，遍历下标与内容 这里的 type 类型就是 **元组**</span><br><span class="line">        for type in array.enumerated() &#123;</span><br><span class="line">            print(&quot;\(type.offset)  \(type.element)&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 4，遍历下标与内容 </span><br><span class="line">        for (n, s) in array.enumerated() &#123;</span><br><span class="line">            print(&quot;\(n)--\(s)&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 5，反序遍历</span><br><span class="line">        print(&quot;--------反序遍历--------&quot;)</span><br><span class="line">        for s in array.reversed() &#123;</span><br><span class="line">            print(s)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 6，反序遍历下标内容（先枚举，后反序)</span><br><span class="line">        for s in array.enumerated().reversed() &#123;</span><br><span class="line">            print(s)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 错误写法（下标和内容不一样）</span><br><span class="line">        for s in array.reversed().enumerated() &#123;</span><br><span class="line">            print(s)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数组的增，删，改</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// OC 中数组分可变与不可变</span><br><span class="line">var array  = [&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;,&quot;麻子&quot;]</span><br><span class="line"></span><br><span class="line">// 追加元素</span><br><span class="line">array.append(&quot;隔壁老王&quot;)</span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line">// 修改元素</span><br><span class="line">array[0] = &quot;隔壁老宋&quot;</span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line">// 删除元素</span><br><span class="line">array.remove(at: 2)</span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line">// 特殊用法  ：删除所有元素，并保留空间</span><br><span class="line">array.removeAll(keepingCapacity: true)</span><br><span class="line">print(&quot;\(array)  \(array.capacity)&quot;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数组的合并</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 要合并的数组的类型 要保持一致</span><br><span class="line">var array  = [&quot;张三&quot;,&quot;李四&quot;,&quot;王二&quot;,&quot;麻子&quot;] as [Any]</span><br><span class="line">let array1  = [&quot;老王&quot;,&quot;老宋&quot;,&quot;1&quot;,190] as [Any]</span><br><span class="line">array += array1</span><br><span class="line">print(array)</span><br></pre></td></tr></table></figure>
+<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><ul>
+<li>字典的定义</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// swift  中使用 【】定义</span><br><span class="line">var dict = [&quot;name&quot; : &quot;安抚啊发生f&quot;,&quot;age&quot; : 18] as [String : Any]</span><br><span class="line">print(dict)</span><br><span class="line"></span><br><span class="line">/// 定义字典数组</span><br><span class="line">let array = [[&quot;name&quot;: &quot;afdasf&quot;,&quot;age&quot;: 19],[&quot;name&quot;:&quot;dfa&quot;,&quot;age&quot;:10]]</span><br><span class="line">print(array)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>可变字典的增，删，改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var dic: [String: Any] = [&quot;name&quot;: &quot;王二&quot;,&quot;age&quot;:13]</span><br><span class="line"></span><br><span class="line">// 添加，修改，都是通过key值取值，key值存在就是修改，不存在就是添加</span><br><span class="line"></span><br><span class="line">// 添加键值对</span><br><span class="line">dic[&quot;sex&quot;] = &quot;女&quot;</span><br><span class="line"></span><br><span class="line">//修改键值对</span><br><span class="line">dic[&quot;name&quot;] = &quot;麻子&quot;</span><br><span class="line">print(dic)</span><br><span class="line"></span><br><span class="line">// 删除</span><br><span class="line">dic.removeValue(forKey: &quot;sex&quot;)</span><br><span class="line">print(dic)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字典的遍历</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let dic: [String: Any] = [&quot;name&quot;: &quot;张三&quot;,&quot;age&quot;: 10,&quot;sex&quot;: &quot;妖&quot;]</span><br><span class="line"></span><br><span class="line">// 元组遍历</span><br><span class="line">for object in dic &#123;</span><br><span class="line">    print(&quot;\(object.key)----\(object.value)&quot;)</span><br><span class="line">&#125;</span><br><span class="line">for (key, value) in dic &#123;</span><br><span class="line">    print(&quot;\(key)-\(value)&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>字典的合并</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var dic: [String: Any] = [&quot;name&quot;: &quot;张三&quot;,&quot;age&quot;: 10]</span><br><span class="line">let dic1: [String : Any] = [&quot;sex&quot;: &quot;妖&quot;,&quot;heigth&quot;: 17.0]</span><br><span class="line"></span><br><span class="line">for object in dic1 &#123;</span><br><span class="line">    // 取到 dic1 的key 值</span><br><span class="line">    let key = object.key</span><br><span class="line">    // 添加到 dic 中</span><br><span class="line">    dic[key] = object.value</span><br><span class="line">&#125;</span><br><span class="line">print(dic)</span><br></pre></td></tr></table></figure>
+<p><a href="www.laizhegou.com">最后来一波无耻的广告：淘劵吧</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/CocoaPods使用教程/" rel="next" title="CocoaPods使用教程">
+                <i class="fa fa-chevron-left"></i> CocoaPods使用教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/Swift-函数，闭包，解除闭包循环引用/" rel="prev" title="Swift-函数，闭包，解除闭包循环引用">
+                Swift-函数，闭包，解除闭包循环引用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+                alt="赵师顺" />
+            
+              <p class="site-author-name" itemprop="name">赵师顺</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITzhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1145273956@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/6cacdf260f9a" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串"><span class="nav-number">1.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组"><span class="nav-number">2.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字典"><span class="nav-number">3.</span> <span class="nav-text">字典</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵师顺</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="给你的Model插上翅膀，自带归档、反归档功能，能够直接写入沙盒，或从沙盒中读取，打印你的Model可以直接看见内部属性。">
+<meta name="keywords" content="OC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给你的Model插上翅膀">
+<meta property="og:url" content="http://yoursite.com/2018/05/24/给你的Model插上翅膀/index.html">
+<meta property="og:site_name" content="赵师顺的博客">
+<meta property="og:description" content="给你的Model插上翅膀，自带归档、反归档功能，能够直接写入沙盒，或从沙盒中读取，打印你的Model可以直接看见内部属性。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-24T10:13:18.637Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="给你的Model插上翅膀">
+<meta name="twitter:description" content="给你的Model插上翅膀，自带归档、反归档功能，能够直接写入沙盒，或从沙盒中读取，打印你的Model可以直接看见内部属性。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/24/给你的Model插上翅膀/"/>
+
+
+
+
+
+  <title>给你的Model插上翅膀 | 赵师顺的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">赵师顺的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活总是让我们遍体鳞伤，但到后来，那些受伤的地方一定会变成我们最强壮的地方。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/给你的Model插上翅膀/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵师顺">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵师顺的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">给你的Model插上翅膀</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T17:29:47+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>给你的Model插上翅膀，自带归档、反归档功能，能够直接写入沙盒，或从沙盒中读取，打印你的Model可以直接看见内部属性。<br><a id="more"></a></p>
+<h3 id="打造BaseModel"><a href="#打造BaseModel" class="headerlink" title="打造BaseModel"></a>打造BaseModel</h3><blockquote>
+<p>实际开发中无论MVVM、MVC、还是MVP都有Model的存在，一个好的BaseModel可以精简代码，提高效率；来吧，集成本Model 愉快的使用MJExtension,JSONModel吧。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface BaseModel : NSObject &lt;NSCoding&gt;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;BaseModel.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt; //导入Runtime </span><br><span class="line"></span><br><span class="line">@implementation BaseModel</span><br><span class="line"></span><br><span class="line">#pragma mark - 解档方法</span><br><span class="line">- (instancetype)initWithCoder:(NSCoder *)aDecoder</span><br><span class="line">&#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        NSArray * porpertyArray = [self getAllPropertys];</span><br><span class="line">        for (NSString *string in porpertyArray) &#123;</span><br><span class="line">            NSString *key = [string substringFromIndex:1];</span><br><span class="line">            [self setValue:[aDecoder decodeObjectForKey:[NSString stringWithFormat:@&quot;%@&quot;,key]] forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - 归档方法</span><br><span class="line">- (void)encodeWithCoder:(NSCoder *)aCoder</span><br><span class="line">&#123;</span><br><span class="line">    //获取所有属性</span><br><span class="line">    NSArray * porpertyArray = [self getAllPropertys];</span><br><span class="line">    for (NSString * name in porpertyArray) &#123;</span><br><span class="line">        //去掉属性名前面的_</span><br><span class="line">        NSString * key = [name substringFromIndex:1];</span><br><span class="line">        //约定好的键值对 c+key</span><br><span class="line">        [aCoder encodeObject:[self valueForKey:key] forKey:[NSString stringWithFormat:@&quot;%@&quot;,key]];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - 获取model的所有属性</span><br><span class="line">-(NSArray *)getAllPropertys&#123;</span><br><span class="line">    NSMutableArray * array = [[NSMutableArray alloc]init];</span><br><span class="line">    unsigned int * count = malloc(sizeof(unsigned int));</span><br><span class="line">    //调用runtime的方法</span><br><span class="line">    //Ivar：方法返回的对象内容对象，这里将返回一个Ivar类型的指针</span><br><span class="line">    //class_copyIvarList方法可以捕获到类的所有变量，将变量的数量存在一个unsigned int的指针中</span><br><span class="line">    Ivar * mem = class_copyIvarList([self class], count);</span><br><span class="line">    //进行遍历</span><br><span class="line">    for (int i=0; i&lt; *count ; i++) &#123;</span><br><span class="line">        //通过移动指针进行遍历</span><br><span class="line">        Ivar var = * (mem+i);</span><br><span class="line">        //获取变量的名称</span><br><span class="line">        const char * name = ivar_getName(var);</span><br><span class="line">        NSString * str = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];</span><br><span class="line">        [array addObject:str];</span><br><span class="line">    &#125;</span><br><span class="line">    //释放内存</span><br><span class="line">    free(count);</span><br><span class="line">    //注意处理野指针</span><br><span class="line">    count=nil;</span><br><span class="line">    return array;</span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - description</span><br><span class="line">- (NSString *)description</span><br><span class="line">&#123;</span><br><span class="line">    NSString *keyValue = @&quot;\n&quot;;</span><br><span class="line">    NSArray * porpertyArray = [self getAllPropertys];</span><br><span class="line">    for (NSString *string in porpertyArray) &#123;</span><br><span class="line">        NSString *key = [string substringFromIndex:1];</span><br><span class="line">        NSString *value = [self valueForKey:key];</span><br><span class="line">        keyValue = [keyValue stringByAppendingString:[NSString stringWithFormat:@&quot;%@=%@\n&quot;,key,value]];</span><br><span class="line">    &#125;</span><br><span class="line">    NSString *name =  NSStringFromClass([self class]);</span><br><span class="line">    return [NSString stringWithFormat:@&quot;\n&lt;****\n%@: %@****&gt;&quot;,name,keyValue];</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h3 id="继承BaseModel"><a href="#继承BaseModel" class="headerlink" title="继承BaseModel"></a>继承BaseModel</h3><blockquote>
+<p>继承BaseModel ,你即将给你的Model插上翅膀</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;BaseModel.h&quot;</span><br><span class="line"></span><br><span class="line">@interface HomeModel : BaseModel</span><br><span class="line">@property (nonatomic,copy)NSString *name;</span><br><span class="line">@property (nonatomic,copy)NSString *sex;</span><br><span class="line">@property (nonatomic,assign)NSInteger age;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;HomeModel.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation HomeModel</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h3 id="验证是否可以飞行"><a href="#验证是否可以飞行" class="headerlink" title="验证是否可以飞行"></a>验证是否可以飞行</h3><blockquote>
+<p>自定义对象写入沙盒 (复杂对象-&gt;归档-&gt;NSData-&gt;writeToFile)<br>（1）先归档 (遵循NSCoding协议，实现encodeWithCoder、initWithCoder方法)<br>（2）后写入</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    HomeModel *model = [[HomeModel alloc]init];</span><br><span class="line">    model.name = @&quot;iOSCoderZhao&quot;;</span><br><span class="line">    model.sex = @&quot;男&quot;;</span><br><span class="line">    model.age = 18;</span><br><span class="line">    // 写入沙盒</span><br><span class="line">    [self archiverWithModel:model];</span><br><span class="line">    // 沙盒读取</span><br><span class="line">    [self enchiver];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)archiverWithModel:(HomeModel *)model</span><br><span class="line">&#123;</span><br><span class="line">    // 归档</span><br><span class="line">    NSMutableData *data = [NSMutableData data];</span><br><span class="line">    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:data];</span><br><span class="line">    [archiver encodeObject:model forKey:@&quot;model&quot;];</span><br><span class="line">    [archiver finishEncoding];//结束归档</span><br><span class="line">    </span><br><span class="line">    // 存储路径(写入document路径)</span><br><span class="line">    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];</span><br><span class="line">    NSString *pathString = [document stringByAppendingPathComponent:@&quot;dataPath&quot;];</span><br><span class="line">    [data writeToFile:pathString atomically:YES];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (void)enchiver</span><br><span class="line">&#123;</span><br><span class="line">    // 路径</span><br><span class="line">    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];</span><br><span class="line">    NSString *pathString = [document stringByAppendingPathComponent:@&quot;dataPath&quot;];</span><br><span class="line">    NSData *data = [NSData dataWithContentsOfFile:pathString];</span><br><span class="line">    // 解档</span><br><span class="line">    NSKeyedUnarchiver *unArchiver = [[NSKeyedUnarchiver alloc]initForReadingWithData:data];</span><br><span class="line">    HomeModel *model = [unArchiver decodeObjectForKey:@&quot;model&quot;];</span><br><span class="line">    [unArchiver finishDecoding];</span><br><span class="line">    NSLog(@&quot;%@&quot;,model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="控制台结果"><a href="#控制台结果" class="headerlink" title="控制台结果"></a>控制台结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;****</span><br><span class="line">HomeModel: </span><br><span class="line">name=iOSCoderZhao</span><br><span class="line">sex=男</span><br><span class="line">age=18</span><br><span class="line">****&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/09/滑动中的NSTimer/" rel="next" title="滑动中的NSTimer">
+                <i class="fa fa-chevron-left"></i> 滑动中的NSTimer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/06/ReactNative基础之ES5-ES6语法/" rel="prev" title="ReactNative基础之ES5,ES6语法">
+                ReactNative基础之ES5,ES6语法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+                alt="赵师顺" />
+            
+              <p class="site-author-name" itemprop="name">赵师顺</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITzhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1145273956@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/6cacdf260f9a" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#打造BaseModel"><span class="nav-number">1.</span> <span class="nav-text">打造BaseModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承BaseModel"><span class="nav-number">2.</span> <span class="nav-text">继承BaseModel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证是否可以飞行"><span class="nav-number">3.</span> <span class="nav-text">验证是否可以飞行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台结果"><span class="nav-number">4.</span> <span class="nav-text">控制台结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵师顺</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

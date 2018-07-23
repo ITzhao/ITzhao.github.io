@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OC,Swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文使用链接 — 报错链接 因为Swift中命名空间的存在，CocoaPods成为导入第三方的首选，本文详细介绍CocoaPods的集成，使用，常见报错总结">
+<meta name="keywords" content="OC,Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CocoaPods使用教程">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/CocoaPods使用教程/index.html">
+<meta property="og:site_name" content="赵师顺的博客">
+<meta property="og:description" content="原文使用链接 — 报错链接 因为Swift中命名空间的存在，CocoaPods成为导入第三方的首选，本文详细介绍CocoaPods的集成，使用，常见报错总结">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-11T06:59:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CocoaPods使用教程">
+<meta name="twitter:description" content="原文使用链接 — 报错链接 因为Swift中命名空间的存在，CocoaPods成为导入第三方的首选，本文详细介绍CocoaPods的集成，使用，常见报错总结">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/CocoaPods使用教程/"/>
+
+
+
+
+
+  <title>CocoaPods使用教程 | 赵师顺的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">赵师顺的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活总是让我们遍体鳞伤，但到后来，那些受伤的地方一定会变成我们最强壮的地方。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/CocoaPods使用教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵师顺">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵师顺的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CocoaPods使用教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T14:41:08+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://blog.csdn.net/u012960049/article/details/70254844" target="_blank" rel="noopener">原文使用链接</a> — <a href="http://www.jianshu.com/p/dfc7b93e67eb" target="_blank" rel="noopener">报错链接</a></p>
+<p>因为Swift中命名空间的存在，CocoaPods成为导入第三方的首选，本文详细介绍CocoaPods的集成，使用，常见报错总结</p>
+<a id="more"></a>
+<h4 id="什么是CocoaPods？"><a href="#什么是CocoaPods？" class="headerlink" title="什么是CocoaPods？"></a>什么是CocoaPods？</h4><p>CocoaPods是专门为iOS工程提供对第三方库的依赖的管理工具，通过CocoaPods，我们可以更方便地管理每个第三方库的版本，而且不需要我们做太多的配置。直观、集中和自动化地管理我们项目的第三方库。</p>
+<p>我们都有这样的经历，当我们添加第三方库的时候，需要导入一堆相关依赖库，更新的时候也要删掉重新导入然后再配置。当我们需要更新某个第三方库的时候，我们又要手动移除该库，导入新的库，然后再配置。这些是很麻烦且没有意义的工作。</p>
+<p>当我们开始使用CocoaPods管理第三方库后，我们只需要相当少的配置，其它的一切都交由CocoaPods来管理即可，我们使用起来就更省心了。</p>
+<h4 id="安装CocoaPods"><a href="#安装CocoaPods" class="headerlink" title="安装CocoaPods"></a>安装CocoaPods</h4><p>1.首先更新gem到最新版本，在终端中输入：$<br> sudo gem update –system,注意不要把“$”复制上。等待一会儿会看到：</p>
+<p>更新gem<br>2.删除自带的ruby镜像，终端输入：gem<br> sources –remove <a href="https://rubygems.org/。" target="_blank" rel="noopener">https://rubygems.org/。</a><br>3.添加淘宝的镜像，终端输入：gem sources -a <a href="https://gems.ruby-china.org/" target="_blank" rel="noopener">https://gems.ruby-china.org/</a>(原来的淘宝镜像 <a href="https://ruby.taobao.org/已经不能用了)。" target="_blank" rel="noopener">https://ruby.taobao.org/已经不能用了)。</a><br>4.可以用gem sources -l 来检查使用替换镜像位置成功，结果应该只有 <a href="https://gems.ruby-china.org/" target="_blank" rel="noopener">https://gems.ruby-china.org/</a> 才对。</p>
+<p>修改镜像<br>5.安装CocoaPods，终端输入：sudo<br> gem install cocoapods。<br>等待一会儿会看到：</p>
+<p>安装CocoaPods<br>6.然后配置下CocoaPods，终端输入：pod<br> setup。</p>
+<p>配置CocoaPods<br>等待过程可能有点长，成功后会看到：</p>
+<p>配置成功<br>到这里CocoaPods就安装好了。</p>
+<h4 id="查找第三方库"><a href="#查找第三方库" class="headerlink" title="查找第三方库"></a>查找第三方库</h4><p>比如查找MJExtension，终端输入：pod<br> search MJExtension，第一次搜索他需要建索引，等待一会儿就可以了。</p>
+<p>建索引中<br>完成后他会自动进入一个新的页面显示搜索结果，上下滑动查看更多，要退出的话按wq就可以了。以后再搜索就不需要建索引了。</p>
+<p>查找结果<br>引入第三方库到项目中</p>
+<p>我先在桌面上新建一个Test项目，然后演示把MJExtension导进去。<br>刚开始的文件目录是这样的</p>
+<p>原始目录.png<br>1,首先打开终端，cd到Test路径下。</p>
+<p>Test</p>
+<p>2.然后生成并编辑一个Podfile文件，命令为vim Podfile，要导入的第三方都要在这里面写上。进去后需要先按I键进入编辑状态，写完后按esc，然后按shift+zz(或者先按shift+:,再按wq)就可以保存退出了。下面的动图里面都有。<br>Podfile的格式大概如下，其中’Test’为你的target的名字。<br>platform :ios,’8.0’<br>target ‘Test’ do<br>pod ‘MJExtension’, ‘~&gt; 3.0.13’<br>end<br>3.安装，命令为：pod install。</p>
+<p>安装第三方<br>安装成功之后，就可以去项目里面使用了。现在的项目文件变成了这样</p>
+<p>屏幕快照 2016-09-07 23.23.19.png<br>之前我们一直是双击Test.xcodeproj打开项目，以后我们就要双击Test.xcworkspace打开了，打开后发现项目里面多了红色框的部分，可以看到MJExtension已经被引入了。</p>
+<p>多出来的文件<br>使用第三方</p>
+<p>你会发现当引入MJExtension的头文件时，可以#import<br> &lt;MJExtension.h&gt;或者#import &lt;MJExtension/MJExtension.h&gt;，但是却不能在输入#import<br> “MJExtension.h”的时候出现提示。虽然强制输入也可以编译通过，但是感觉很不爽。<br>解决这个问题的办法是在工程的Build Settings搜索Search，然后在User<br> header search paths中添加$(SRCROOT)并选择recursive。</p>
+<p>头文件不提示的解决办法</p>
+<p>现在就可以提示#import “MJExtension.h”啦。<br>然后我们就可以在项目里面使用MJExtension的方法啦。</p>
+<p>使用MJExtension<br>增加新的第三方</p>
+<p>如果使用过程中我还想添加其他的第三方怎么办，只要在Podfile里面接着添加，然后终端再执行pod<br> install就可以了。</p>
+<h4 id="新增第三方"><a href="#新增第三方" class="headerlink" title="新增第三方"></a>新增第三方</h4><p>更新CocoaPods中的第三方们。</p>
+<p>第三方库们都有人在维护升级，我们需要隔断时间就要更新下我们工程中第三方库的版本。只需要终端输入命令pod<br> update就可以了。</p>
+<p>如果遇到pod<br> install或者pod update慢的问题，原因在于当执行以上两个命令的时候会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：<br>pod install –verbose –no-repo-update<br>pod update –verbose –no-repo-update</p>
+<h4 id="删除CocoaPods中的某些第三方们。"><a href="#删除CocoaPods中的某些第三方们。" class="headerlink" title="删除CocoaPods中的某些第三方们。"></a>删除CocoaPods中的某些第三方们。</h4><p>当我们需要去掉某个第三方库时，只需要在Podfile删除该引入该库的语句，然后执行pod<br> update或者pod install就可以了。</p>
+<h4 id="将CocoaPods从项目中删除"><a href="#将CocoaPods从项目中删除" class="headerlink" title="将CocoaPods从项目中删除"></a>将CocoaPods从项目中删除</h4><p>如果你在以后的使用过程中不想用CocoaPods了怎么办？很简单，把多出来的东西们都删掉就可以了，不过为了项目正常运行，你需要手动导入已经使用的第三方们哦。</p>
+<p>将CocoaPods从项目中删除<br>升级CocoaPods</p>
+<p>升级CocoaPods版本的命令和安装CocoaPods的命令一样，都是sudo<br> gem install cocoapods。<br>如果老版本升级cocoapods的时候提示Operation not permitted - /usr/bin/xcodeproj，改用命令sudo<br> gem install -n /usr/local/bin cocoapods –pre就可以了。</p>
+<h4 id="卸载CocoaPods"><a href="#卸载CocoaPods" class="headerlink" title="卸载CocoaPods"></a>卸载CocoaPods</h4><p>卸载CocoaPods的命令是sudo<br> gem uninstall cocoapods</p>
+<p>卸载CocoaPods<br>执行完命令后，最下面打印Successfully uninstalled cocoapods字样就代表已经成功卸载了。</p>
+<p>CocoaPods Mac App的安装和使用</p>
+<p>CocoaPods桌面应用版下载地址：<a href="https://cocoapods.org/app" target="_blank" rel="noopener">https://cocoapods.org/app</a><br>打开应用会提示你是否安装命令行工具，选择install就也可以在命令行使用Pod了。省去了上面的步骤们，方便快捷的使用CocoaPods。</p>
+<p>是否安装命令行工具<br>现在假如要给一个Test项目加入第三方库<br>1.选择File-New Podfile from Xcode Project，去选择项目的Project文件。</p>
+<p>选择项目<br>2.填写自动生成的Podfile，并且安装。</p>
+<p>Podfile<br>然后就可以去打开工程了，是不是比命令行简单多了。<br>注意：Cocoapods.app 删掉并执行命令可能会报错：Unable to locate the CocoaPods.app<br> application bundle. Please ensure the application is available and launch it at least once</p>
+<h2 id="常见错误总结"><a href="#常见错误总结" class="headerlink" title="常见错误总结"></a>常见错误总结</h2><h4 id="错误1、"><a href="#错误1、" class="headerlink" title="错误1、"></a>错误1、</h4><blockquote>
+<p>当写在Podfile文件中的第三方框架，不能使用，找不到时<br>查看Pods文件夹，是否下载了所需要的第三方框架，没有的话就 pod update</p>
+</blockquote>
+<h4 id="错误2、"><a href="#错误2、" class="headerlink" title="错误2、"></a>错误2、</h4><blockquote>
+<p>Could not automatically select an Xcode project. Specify one in your Podfile like so:xcodeproj ‘path/to/Project.xcodeproj’</p>
+</blockquote>
+<p>在Podfile文件里指定下工程目录就行了<br>xcodeproj ‘Demo/Demo.xcodeproj’</p>
+<p>但是如果cocoapods版本为（1.0.0或更高）的话，可能会有以下警告</p>
+<blockquote>
+<p>[!] xcodeproj was renamed to <code>project</code>. Please use that from now on.</p>
+</blockquote>
+<p>这时只需要把xcodeproj改为 project就行了</p>
+<p>project ‘Demo/Demo.project’</p>
+<h4 id="错误3、"><a href="#错误3、" class="headerlink" title="错误3、"></a>错误3、</h4><blockquote>
+<p>The dependency <code>AFNetworking (~&gt; 3.0)</code> is not used in any concrete target.</p>
+</blockquote>
+<p>在Podfile中添加<br>target‘项目名’do  (如  target ‘Demo’ do )</p>
+<h4 id="错误4、"><a href="#错误4、" class="headerlink" title="错误4、"></a>错误4、</h4><blockquote>
+<p>[!] Invalid <code>Podfile</code> file: syntax error, unexpected end-of-input, expecting keyword_end.</p>
+</blockquote>
+<p>在Podfile的末尾添加 end</p>
+<h4 id="错误5、"><a href="#错误5、" class="headerlink" title="错误5、"></a>错误5、</h4><blockquote>
+<p>Unable to find the Xcode project <code>/Volumes/BIAO/iOS/code/MBWB.xcodeproj</code> for the target <code>Pods</code>.</p>
+</blockquote>
+<p>在Podfile中 将  project ‘Demo/Demo.project’  改成  project ‘Demo.project’</p>
+<h4 id="错误6、"><a href="#错误6、" class="headerlink" title="错误6、"></a>错误6、</h4><blockquote>
+<p>build diff: /../Podfile.lock: No such file or directory</p>
+</blockquote>
+<p>在工程设置中的Build Phases下删除Check Pods Manifest.lock及Copy Pods Resources</p>
+<p>还有一个更新慢的问题：无论是执行pod install还是pod update都卡在了Analyzing dependencies不动</p>
+<p>原因在于当执行以上两个命令的时候会升级CocoaPods的spec仓库，加一个参数可以省略这一步，然后速度就会提升不少。加参数的命令如下：</p>
+<p>pod install –verbose –no-repo-update</p>
+<p>pod update –verbose –no-repo-update</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/Swift基础语法/" rel="next" title="Swift基础语法">
+                <i class="fa fa-chevron-left"></i> Swift基础语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/Swift-字符串，数组，字典/" rel="prev" title="Swift-字符串，数组，字典">
+                Swift-字符串，数组，字典 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+                alt="赵师顺" />
+            
+              <p class="site-author-name" itemprop="name">赵师顺</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITzhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1145273956@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/6cacdf260f9a" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是CocoaPods？"><span class="nav-number">1.</span> <span class="nav-text">什么是CocoaPods？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装CocoaPods"><span class="nav-number">2.</span> <span class="nav-text">安装CocoaPods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找第三方库"><span class="nav-number">3.</span> <span class="nav-text">查找第三方库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新增第三方"><span class="nav-number">4.</span> <span class="nav-text">新增第三方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除CocoaPods中的某些第三方们。"><span class="nav-number">5.</span> <span class="nav-text">删除CocoaPods中的某些第三方们。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将CocoaPods从项目中删除"><span class="nav-number">6.</span> <span class="nav-text">将CocoaPods从项目中删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卸载CocoaPods"><span class="nav-number">7.</span> <span class="nav-text">卸载CocoaPods</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见错误总结"><span class="nav-number"></span> <span class="nav-text">常见错误总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#错误1、"><span class="nav-number">1.</span> <span class="nav-text">错误1、</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误2、"><span class="nav-number">2.</span> <span class="nav-text">错误2、</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误3、"><span class="nav-number">3.</span> <span class="nav-text">错误3、</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误4、"><span class="nav-number">4.</span> <span class="nav-text">错误4、</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误5、"><span class="nav-number">5.</span> <span class="nav-text">错误5、</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误6、"><span class="nav-number">6.</span> <span class="nav-text">错误6、</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵师顺</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

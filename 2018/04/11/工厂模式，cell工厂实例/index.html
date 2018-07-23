@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OC," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="开源中国博客地址demo传送门 摘要: 工厂模式 也称为 虚拟构造 ，在基类中定义创建对象接口，让子类决定实例化哪个类；工厂方法让一个类的实例化延迟到子类中进行；他解决的问题是对象的创建时机，他提供了一种的扩展的策略。 特征：1. 存在继承关系；2. 运用了多态的特征。使用条件：1. 一个无法预期知道他要生成哪个类的对象，就让其子类决定；2. 创建大量相同类的对象">
+<meta name="keywords" content="OC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工厂模式，cell工厂实例">
+<meta property="og:url" content="http://yoursite.com/2018/04/11/工厂模式，cell工厂实例/index.html">
+<meta property="og:site_name" content="赵师顺的博客">
+<meta property="og:description" content="开源中国博客地址demo传送门 摘要: 工厂模式 也称为 虚拟构造 ，在基类中定义创建对象接口，让子类决定实例化哪个类；工厂方法让一个类的实例化延迟到子类中进行；他解决的问题是对象的创建时机，他提供了一种的扩展的策略。 特征：1. 存在继承关系；2. 运用了多态的特征。使用条件：1. 一个无法预期知道他要生成哪个类的对象，就让其子类决定；2. 创建大量相同类的对象">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3601550-e7d530fddc1ec98e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3601550-35b443557a04093d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3601550-3507d0e2d7c84b13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3601550-164e752ca54f47bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-11T07:05:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="工厂模式，cell工厂实例">
+<meta name="twitter:description" content="开源中国博客地址demo传送门 摘要: 工厂模式 也称为 虚拟构造 ，在基类中定义创建对象接口，让子类决定实例化哪个类；工厂方法让一个类的实例化延迟到子类中进行；他解决的问题是对象的创建时机，他提供了一种的扩展的策略。 特征：1. 存在继承关系；2. 运用了多态的特征。使用条件：1. 一个无法预期知道他要生成哪个类的对象，就让其子类决定；2. 创建大量相同类的对象">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3601550-e7d530fddc1ec98e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/11/工厂模式，cell工厂实例/"/>
+
+
+
+
+
+  <title>工厂模式，cell工厂实例 | 赵师顺的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">赵师顺的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活总是让我们遍体鳞伤，但到后来，那些受伤的地方一定会变成我们最强壮的地方。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/11/工厂模式，cell工厂实例/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵师顺">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵师顺的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">工厂模式，cell工厂实例</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T10:31:25+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://my.oschina.net/iOScoderZhao" target="_blank" rel="noopener">开源中国博客地址</a><br><a href="https://github.com/ITzhao/FactoryPatternDemo.git" target="_blank" rel="noopener">demo传送门</a></p>
+<p>摘要: 工厂模式 也称为 虚拟构造 ，在基类中定义创建对象接口，让子类决定实例化哪个类；工厂方法让一个类的实例化延迟到子类中进行；他解决的问题是对象的创建时机，他提供了一种的扩展的策略。</p>
+<p><strong>特征</strong>：1. 存在继承关系；2. 运用了多态的特征。<br><strong>使用条件</strong>：1. 一个无法预期知道他要生成哪个类的对象，就让其子类决定；2. 创建大量相同类的对象</p>
+<a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/3601550-e7d530fddc1ec98e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="未标题-1.jpg"></p>
+<h5 id="创建Person类"><a href="#创建Person类" class="headerlink" title="创建Person类"></a>创建Person类</h5><blockquote>
+<p>创建Person类继承NSObject;作为Man,Woman的基类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface Person : NSObject</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 记录子类名字</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic,strong)NSString *name;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 初始化基类，根据条件初始化出相应的子类</span><br><span class="line"> </span><br><span class="line"> @param condition 条件（这里 1 为Man, 2 为 Woman）</span><br><span class="line"> @return 获取具体的子类</span><br><span class="line"> */</span><br><span class="line">- (instancetype)initPersonSubclassWithCondition:(NSInteger)condition;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 子类实现对应的方法</span><br><span class="line"> </span><br><span class="line"> @return 要执行的操作</span><br><span class="line"> */</span><br><span class="line">- (NSString *)likeSomeOne;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Person根据条件初始化具体子类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Person.h&quot;</span><br><span class="line">#import &quot;Man.h&quot;</span><br><span class="line">#import &quot;Woman.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Person</span><br><span class="line">- (instancetype)initPersonSubclassWithCondition:(NSInteger)condition</span><br><span class="line">&#123;</span><br><span class="line">    if (condition == 1) &#123;</span><br><span class="line">        Man *man = [[Man alloc]init];</span><br><span class="line">        man.name = @&quot;我是男人&quot;;</span><br><span class="line">        return man;</span><br><span class="line">    &#125;</span><br><span class="line">    if (condition == 2) &#123;</span><br><span class="line">        Woman *woman = [[Woman alloc]init];</span><br><span class="line">        woman.name = @&quot;我是女人&quot;;</span><br><span class="line">        return woman;</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line">- (NSString *)likeSomeOne</span><br><span class="line">&#123;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h6 id="创建Person子类-Man-Woman"><a href="#创建Person子类-Man-Woman" class="headerlink" title="创建Person子类 Man,Woman"></a>创建Person子类 Man,Woman</h6><blockquote>
+<p>子类仅仅重写父类方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Man.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Man</span><br><span class="line">- (NSString *)likeSomeOne</span><br><span class="line">&#123;</span><br><span class="line">    return @&quot;我是男人，我喜欢女人&quot;;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Woman.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Woman</span><br><span class="line">- (NSString *)likeSomeOne</span><br><span class="line">&#123;</span><br><span class="line">    return @&quot;我是女人，我喜欢男人&quot;;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h4 id="创建Animal类"><a href="#创建Animal类" class="headerlink" title="创建Animal类"></a>创建Animal类</h4><blockquote>
+<p>创建Animal类作为Dog,Cat的基类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface Animal : NSObject</span><br><span class="line">/**</span><br><span class="line"> 记录名字</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic,strong)NSString *name;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 初始化基类，根据条件初始化出相应的子类</span><br><span class="line"> </span><br><span class="line"> @param condition 条件（这里 1 为Dog, 2 为 Cat）</span><br><span class="line"> @return 获取具体的子类</span><br><span class="line"> */</span><br><span class="line">- (instancetype)initAnimalSubclassWithCondition:(NSInteger)condition;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 子类实现对应的方法</span><br><span class="line"> </span><br><span class="line"> @return 要执行的操作</span><br><span class="line"> */</span><br><span class="line">- (NSString *)likeEatFood;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Animal根据条件初始化具体子类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Animal.h&quot;</span><br><span class="line">#import &quot;Dog.h&quot;</span><br><span class="line">#import &quot;Cat.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Animal</span><br><span class="line">- (instancetype)initAnimalSubclassWithCondition:(NSInteger)condition</span><br><span class="line">&#123;</span><br><span class="line">    if (condition == 1) &#123;</span><br><span class="line">        Dog *dog = [[Dog alloc]init];</span><br><span class="line">        dog.name = @&quot;我是🐶&quot;;</span><br><span class="line">        return dog;</span><br><span class="line">    &#125;</span><br><span class="line">    if (condition == 2) &#123;</span><br><span class="line">        Cat *cat = [[Cat alloc]init];</span><br><span class="line">        cat.name = @&quot;我是🐱&quot;;</span><br><span class="line">        return cat;</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line">- (NSString *)likeEatFood</span><br><span class="line">&#123;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h6 id="创建Animal子类-Dog-Cat"><a href="#创建Animal子类-Dog-Cat" class="headerlink" title="创建Animal子类 Dog,Cat"></a>创建Animal子类 Dog,Cat</h6><blockquote>
+<p>子类仅仅重写父类方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Dog.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Dog</span><br><span class="line">- (NSString *)likeEatFood</span><br><span class="line">&#123;</span><br><span class="line">    return @&quot;我是🐶，我喜欢吃💩&quot;;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Cat.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Cat</span><br><span class="line">- (NSString *)likeEatFood</span><br><span class="line">&#123;</span><br><span class="line">    return @&quot;我是🐱，我喜欢吃🐟&quot;;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h2 id="创建工厂类"><a href="#创建工厂类" class="headerlink" title="创建工厂类"></a>创建工厂类</h2><blockquote>
+<p>在基类中定义创建对象接口，根据条件让子类决定实例化哪个类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">@class Person;</span><br><span class="line">@class Animal;</span><br><span class="line"></span><br><span class="line">@interface Factory : NSObject</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 工厂Person子类</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic,strong)Person *person;</span><br><span class="line">/**</span><br><span class="line"> 工厂Animal子类</span><br><span class="line"> */</span><br><span class="line">@property (nonatomic,strong)Animal *animal;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 初始化工厂，根据condition 条件初始化 Person/Animal基类，根据subclassCondt初始化基类的子类</span><br><span class="line"> </span><br><span class="line"> @param condition 初始化基类条件（1为 Person, 2 为Animal）</span><br><span class="line"> @param subclassCondt 初始化基类子类 (Person类：（1 为Man, 2,为Woman）; Animal类：（1 为 Dog, 2 为 Cat）)</span><br><span class="line"> @return 获取具体的子类</span><br><span class="line"> */</span><br><span class="line">- (instancetype)initFactorySubclassWithCondition:(NSInteger)condition AndBaseSubclassCondition:(NSInteger)subclassCondt;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> 获取子类名称</span><br><span class="line"> */</span><br><span class="line">- (void)getFactorySubClass;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Factory.h&quot;</span><br><span class="line">#import &quot;Person.h&quot;</span><br><span class="line">#import &quot;Animal.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Factory</span><br><span class="line"></span><br><span class="line">- (instancetype)initFactorySubclassWithCondition:(NSInteger)condition AndBaseSubclassCondition:(NSInteger)subclassCondt</span><br><span class="line">&#123;</span><br><span class="line">    if (condition == 1) &#123;</span><br><span class="line">        Person *person = [[Person alloc]initPersonSubclassWithCondition:subclassCondt];</span><br><span class="line">        self.person = person;</span><br><span class="line">    &#125;</span><br><span class="line">    if (condition == 2) &#123;</span><br><span class="line">        Animal *animal = [[Animal alloc]initAnimalSubclassWithCondition:subclassCondt];</span><br><span class="line">        self.animal = animal;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">- (void)getFactorySubClass</span><br><span class="line">&#123;</span><br><span class="line">    if (self.person != nil) &#123;</span><br><span class="line">        NSLog(@&quot;%@----%@&quot;,self.person.name,[self.person likeSomeOne]);</span><br><span class="line">    &#125;</span><br><span class="line">    if (self.animal != nil) &#123;</span><br><span class="line">        NSLog(@&quot;%@----%@&quot;,self.animal.name,[self.animal likeEatFood]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h1 id="控制器中调用"><a href="#控制器中调用" class="headerlink" title="控制器中调用"></a>控制器中调用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line">#import &quot;Factory.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line"></span><br><span class="line">    Factory *man = [[Factory alloc]initFactorySubclassWithCondition:1 AndBaseSubclassCondition:1];</span><br><span class="line">    [man getFactorySubClass];</span><br><span class="line">    </span><br><span class="line">    Factory *woman = [[Factory alloc]initFactorySubclassWithCondition:1 AndBaseSubclassCondition:2];</span><br><span class="line">    [woman getFactorySubClass];</span><br><span class="line">    </span><br><span class="line">    Factory *dog = [[Factory alloc]initFactorySubclassWithCondition:2 AndBaseSubclassCondition:1];</span><br><span class="line">    [dog getFactorySubClass];</span><br><span class="line">    </span><br><span class="line">    Factory *cat = [[Factory alloc]initFactorySubclassWithCondition:2 AndBaseSubclassCondition:2];</span><br><span class="line">    [cat getFactorySubClass];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/3601550-35b443557a04093d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-09-05 上午12.32.32"></p>
+<h2 id="Cell-工厂实例"><a href="#Cell-工厂实例" class="headerlink" title="Cell 工厂实例"></a>Cell 工厂实例</h2><p><img src="http://upload-images.jianshu.io/upload_images/3601550-3507d0e2d7c84b13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-12-04 下午3.23.13.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3601550-164e752ca54f47bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2017-12-04 下午3.24.26.png"></p>
+<p><a href="www.laizhegou.com">最后来一波无耻的广告：淘劵吧</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/11/内存-堆与栈/" rel="next" title="内存--堆与栈">
+                <i class="fa fa-chevron-left"></i> 内存--堆与栈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/11/代理模式/" rel="prev" title="代理模式">
+                代理模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+                alt="赵师顺" />
+            
+              <p class="site-author-name" itemprop="name">赵师顺</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITzhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1145273956@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/6cacdf260f9a" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建Person类"><span class="nav-number">1.</span> <span class="nav-text">创建Person类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#创建Person子类-Man-Woman"><span class="nav-number">1.1.</span> <span class="nav-text">创建Person子类 Man,Woman</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Animal类"><span class="nav-number"></span> <span class="nav-text">创建Animal类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#创建Animal子类-Dog-Cat"><span class="nav-number">0.1.</span> <span class="nav-text">创建Animal子类 Dog,Cat</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建工厂类"><span class="nav-number"></span> <span class="nav-text">创建工厂类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#控制器中调用"><span class="nav-number"></span> <span class="nav-text">控制器中调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cell-工厂实例"><span class="nav-number"></span> <span class="nav-text">Cell 工厂实例</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵师顺</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
