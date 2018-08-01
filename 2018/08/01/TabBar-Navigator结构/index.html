@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React-Native," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="注意事项 iOS中通常是UITabBarController + UINavigationController  +Controller  实现选项卡与导航条，self.hidesBottomBarWhenPushed = YES实现隐藏二级界面tabBar。RN中用iOS的思路则不能隐藏tabBar，是navigator -&amp;gt; tabBar -&amp;gt; component (tabBar当">
+<meta name="keywords" content="React-Native">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TabBar+Navigator结构">
+<meta property="og:url" content="http://yoursite.com/2018/08/01/TabBar-Navigator结构/index.html">
+<meta property="og:site_name" content="赵师顺的博客">
+<meta property="og:description" content="注意事项 iOS中通常是UITabBarController + UINavigationController  +Controller  实现选项卡与导航条，self.hidesBottomBarWhenPushed = YES实现隐藏二级界面tabBar。RN中用iOS的思路则不能隐藏tabBar，是navigator -&amp;gt; tabBar -&amp;gt; component (tabBar当">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3601550-1abbe749c1c5f061.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2018-08-01T08:03:24.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TabBar+Navigator结构">
+<meta name="twitter:description" content="注意事项 iOS中通常是UITabBarController + UINavigationController  +Controller  实现选项卡与导航条，self.hidesBottomBarWhenPushed = YES实现隐藏二级界面tabBar。RN中用iOS的思路则不能隐藏tabBar，是navigator -&amp;gt; tabBar -&amp;gt; component (tabBar当">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/3601550-1abbe749c1c5f061.gif?imageMogr2/auto-orient/strip">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/01/TabBar-Navigator结构/"/>
+
+
+
+
+
+  <title>TabBar+Navigator结构 | 赵师顺的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f4fefde5a33fb0c22cad1b9d14edcadb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+<a href="https://github.com/ITzhao"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">赵师顺的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活总是让我们遍体鳞伤，但到后来，那些受伤的地方一定会变成我们最强壮的地方。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/01/TabBar-Navigator结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="赵师顺">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵师顺的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TabBar+Navigator结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T16:01:49+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ReactNative技术博客/" itemprop="url" rel="index">
+                    <span itemprop="name">ReactNative技术博客</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><blockquote>
+<p><strong>iOS</strong>中通常是UITabBarController + UINavigationController  +Controller  实现选项卡与导航条，self.hidesBottomBarWhenPushed = YES实现隐藏二级界面tabBar。<br><strong>RN</strong>中用iOS的思路则不能隐藏tabBar，是navigator -&gt; tabBar -&gt; component (tabBar当做普通组件)</p>
+</blockquote>
+<a id="more"></a>
+<p><img src="https://upload-images.jianshu.io/upload_images/3601550-1abbe749c1c5f061.gif?imageMogr2/auto-orient/strip" alt="Gif.gif"></p>
+<h4 id="导入第三方"><a href="#导入第三方" class="headerlink" title="导入第三方"></a>导入第三方</h4><blockquote>
+<p>打开终端，cd 到你的文件目录</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 导入tabBar</span><br><span class="line">npm install react-native-tab-navigator --save</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 导入navigator</span><br><span class="line">npm  install   react-native-deprecated-custom-components  --save</span><br></pre></td></tr></table></figure>
+<h4 id="Navigator"><a href="#Navigator" class="headerlink" title="Navigator"></a>Navigator</h4><blockquote>
+<p>创建NavigatorComponent 组件作为app入口，配置路由</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import React,&#123;Component&#125; from &apos;react&apos;;</span><br><span class="line">import &#123;</span><br><span class="line">    View,</span><br><span class="line">    Text,</span><br><span class="line">    StyleSheet</span><br><span class="line">&#125; from &apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  navigator ---命令行：&apos;npm  install   react-native-deprecated-custom-components  --save&apos;</span><br><span class="line"> */</span><br><span class="line">import &#123;Navigator&#125; from &quot;react-native-deprecated-custom-components&quot;;</span><br><span class="line">import TabBar from &apos;./MainComponent&apos;</span><br><span class="line"></span><br><span class="line">export default class NavigatorComponent extends Component&#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return(</span><br><span class="line">            //有导航功能，没有类似iOS的导航条,二级界面隐藏 tabBar</span><br><span class="line">            &lt;Navigator</span><br><span class="line">                style=&#123;styles.container&#125;</span><br><span class="line">                initialRoute = &#123;&#123; name: &apos;TabBar&apos;, component: TabBar &#125;&#125;</span><br><span class="line">                configureScene=&#123;()=&gt;&#123;</span><br><span class="line">                    return Navigator.SceneConfigs.PushFromRight;</span><br><span class="line">                &#125;&#125;</span><br><span class="line">                renderScene=&#123;(route,navigator)=&gt;&#123;</span><br><span class="line">                    let Component = route.component;</span><br><span class="line">                    return &lt;Component &#123;...route.passProps&#125; navigator=&#123;navigator&#125;/&gt;;</span><br><span class="line">                &#125;&#125;</span><br><span class="line">            /&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line">    container:&#123;</span><br><span class="line">        flex:1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="TabBar"><a href="#TabBar" class="headerlink" title="TabBar"></a>TabBar</h4><blockquote>
+<p>创建MainComponent组件作为TabBar,分别导入首页，我的等等组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">import React,&#123;Component&#125; from &apos;react&apos;;</span><br><span class="line">import &#123;</span><br><span class="line">    View,</span><br><span class="line">    Text,</span><br><span class="line">    Image,</span><br><span class="line">    StyleSheet,</span><br><span class="line">    Platform,// 判断当前运行的系统</span><br><span class="line">&#125; from &apos;react-native&apos;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *  导入第三方组件</span><br><span class="line"> *  1，tabBar---- 命令行：&apos;npm install react-native-tab-navigator --save&apos;</span><br><span class="line"> */</span><br><span class="line">import TabNavigator from &apos;react-native-tab-navigator&apos;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 导入根组件</span><br><span class="line"> */</span><br><span class="line">import Home from &apos;../Home/HomeComponent&apos;</span><br><span class="line">import Shop from &apos;../Shop/ShopComponent&apos;</span><br><span class="line">import More from &apos;../More/MoreComponent&apos;</span><br><span class="line">import Mine from &apos;../Mine/MineComponent&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// iOS思路： tabBar -&gt;  navigation -&gt; contorller</span><br><span class="line">// rn思路： navigator -&gt; tabBar -&gt; component (tabBar当做普通组件)</span><br><span class="line">export default class MainComponent extends Component&#123;</span><br><span class="line">    // 状态机，记录选中的组件</span><br><span class="line">    constructor(props)&#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state=&#123;</span><br><span class="line">            selectTab:&apos;home&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return(</span><br><span class="line">            &lt;TabNavigator&gt;</span><br><span class="line">                &#123;/*首页*/&#125;</span><br><span class="line">                &#123;this._renderTabBarItem(&apos;首页&apos;,&apos;home&apos;,&apos;icon_tabbar_homepage&apos;,&apos;icon_tabbar_homepage_selected&apos;,&apos;首页&apos;,Home)&#125;</span><br><span class="line">                &#123;/*商家*/&#125;</span><br><span class="line">                &#123;this._renderTabBarItem(&apos;商家&apos;,&apos;shop&apos;,&apos;icon_tabbar_merchant_normal&apos;,&apos;icon_tabbar_merchant_selected&apos;,&apos;商家&apos;,Shop)&#125;</span><br><span class="line">                &#123;/*我的*/&#125;</span><br><span class="line">                &#123;this._renderTabBarItem(&apos;我的&apos;,&apos;mine&apos;,&apos;icon_tabbar_mine&apos;,&apos;icon_tabbar_mine_selected&apos;,&apos;我的&apos;,Mine)&#125;</span><br><span class="line">                &#123;/*更多*/&#125;</span><br><span class="line">                &#123;this._renderTabBarItem(&apos;更多&apos;,&apos;more&apos;,&apos;icon_tabbar_misc&apos;,&apos;icon_tabbar_misc_selected&apos;,&apos;更多&apos;,More)&#125;</span><br><span class="line">            &lt;/TabNavigator&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 抽出创建TabNavigator方法</span><br><span class="line">    _renderTabBarItem(itemTitle,selectTabName,normalName,selectedName,componentName,component)&#123;</span><br><span class="line">        return(</span><br><span class="line">            &lt;TabNavigator.Item</span><br><span class="line">                title=&#123;itemTitle&#125;</span><br><span class="line">                selectedTitleStyle=&#123;styles.selectedTitleStyle&#125;</span><br><span class="line">                selected=&#123;this.state.selectTab=== selectTabName&#125;</span><br><span class="line">                renderIcon=&#123;()=&gt;&lt;Image source=&#123;&#123;uri:normalName&#125;&#125; style=&#123;styles.iconStyle&#125;/&gt;&#125;</span><br><span class="line">                renderSelectedIcon=&#123;()=&gt;&lt;Image source=&#123;&#123;url:selectedName&#125;&#125; style=&#123;styles.iconStyle&#125;/&gt;&#125;</span><br><span class="line">                onPress=&#123;()=&gt;&#123;</span><br><span class="line">                    this.setState(&#123;</span><br><span class="line">                        selectTab:selectTabName</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;&#125;</span><br><span class="line">            &gt;</span><br><span class="line">                &#123;this._renderComponent(selectTabName)&#125;</span><br><span class="line">            &lt;/TabNavigator.Item&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    _renderComponent(index)&#123;</span><br><span class="line">        if (index===&apos;home&apos;)&#123;</span><br><span class="line">            return(&lt;Home navigator=&#123;this.props.navigator&#125;/&gt;);</span><br><span class="line">        &#125; else if (index === &apos;shop&apos;)&#123;</span><br><span class="line">            return(&lt;Shop navigator=&#123;this.props.navigator&#125;/&gt;);</span><br><span class="line">        &#125; else if (index === &apos;mine&apos;)&#123;</span><br><span class="line">            return(&lt;Mine navigator=&#123;this.props.navigator&#125;/&gt;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return(&lt;More navigator=&#123;this.props.navigator&#125;/&gt;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">const styles = StyleSheet.create(&#123;</span><br><span class="line">    iconStyle:&#123;</span><br><span class="line">        width: Platform.OS === &apos;ios&apos;? 25:20,</span><br><span class="line">        height:Platform.OS === &apos;ios&apos;? 25:20,</span><br><span class="line">    &#125;,</span><br><span class="line">    selectedTitleStyle:&#123;</span><br><span class="line">        color:&apos;orange&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p><a href="https://github.com/ITzhao/Rn_demo" target="_blank" rel="noopener">demo传送门</a><br><a href="https://coderzhao.cn" target="_blank" rel="noopener">我的博客</a></p>
+
+      
+    </div>
+    
+    
+    
+
+        <div>
+          
+            <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+          
+        </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React-Native/" rel="tag"># React-Native</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/01/ReactNative基础/" rel="next" title="ReactNative基础">
+                <i class="fa fa-chevron-left"></i> ReactNative基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://upload-images.jianshu.io/upload_images/3601550-63e5ddab21066fed.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+                alt="赵师顺" />
+            
+              <p class="site-author-name" itemprop="name">赵师顺</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ITzhao" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1145273956@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/6cacdf260f9a" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-globe"></i>简书</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意事项"><span class="nav-number">1.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入第三方"><span class="nav-number">2.</span> <span class="nav-text">导入第三方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Navigator"><span class="nav-number">3.</span> <span class="nav-text">Navigator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TabBar"><span class="nav-number">4.</span> <span class="nav-text">TabBar</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵师顺</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  undefined
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
